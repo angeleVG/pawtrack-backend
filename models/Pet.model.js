@@ -46,7 +46,7 @@ nextDueDate: Date  }
   },
 
   {
-    // this adds createdAt and updatedAt fields
+     // this object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true
   }
 );
