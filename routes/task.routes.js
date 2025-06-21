@@ -46,7 +46,7 @@ router.put("/:taskId", (req, res, next) => {
 });
 
 // DELETE task
-router.delete("/:petId", (req, res, next) => {
+router.delete("/:taskId", (req, res, next) => {
   Task.findByIdAndDelete(req.params.taskId)
     .then(() => res.status(204).send())
     // .catch(err => res.status(500).json({ error: err.message }));
