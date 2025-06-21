@@ -8,7 +8,7 @@ const taskSchema = new Schema(
 
     type: {
       type: String,
-      enum: ["walk", "play", "train", "other"], // for future reference
+      enum: ["walk", "play", "train"], // for future reference
       required: true,
     },
 
