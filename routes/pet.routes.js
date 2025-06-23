@@ -5,7 +5,6 @@ const Pet = require("../models/Pet.model");
 router.post("/", (req, res, next) => {
   Pet.create(req.body)
     .then((pet) => res.status(201).json(pet))
-    // .catch(err => res.status(400).json({ error: err.message }));
     .catch((error) => {
       next(error);
     });
@@ -15,7 +14,6 @@ router.post("/", (req, res, next) => {
 router.get("/", (req, res, next) => {
   Pet.find()
     .then((pets) => res.json(pets))
-    // .catch(err => res.status(500).json({ error: err.message }));
     .catch((error) => {
       next(error);
     });
@@ -29,7 +27,6 @@ router.get("/:petId", (req, res, next) => {
         ? res.json(pet)
         : res.status(404).json({ error: "Pet not found" })
     )
-    // .catch(err => res.status(500).json({ error: err.message }));
     .catch((error) => {
       next(error);
     });
@@ -39,7 +36,6 @@ router.get("/:petId", (req, res, next) => {
 router.put("/:petId", (req, res, next) => {
   Pet.findByIdAndUpdate(req.params.petId, req.body, { new: true })
     .then((updated) => res.json(updated))
-    // .catch(err => res.status(400).json({ error: err.message }));
     .catch((error) => {
       next(error);
     });
@@ -49,7 +45,6 @@ router.put("/:petId", (req, res, next) => {
 router.delete("/:petId", (req, res, next) => {
   Pet.findByIdAndDelete(req.params.petId)
     .then(() => res.status(204).send())
-    // .catch(err => res.status(500).json({ error: err.message }));
     .catch((error) => {
       next(error);
     });
