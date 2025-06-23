@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const petSchema = new Schema(
