@@ -50,4 +50,20 @@ router.delete("/:petId", (req, res, next) => {
     });
 });
 
+
+// ADD a medication to a pet
+router.post("/:petId/medications", (req, res, next) => {
+  const { petId } = req.params;
+  const medication = req.body;
+  Pet.findByIdAndUpdate(
+    petId,
+    { $push: { medications: medication } },
+    { new: true }
+  )
+    .then((updatedPet) => res.json(updatedPet))
+    .catch((error) => next(error));
+});
+
+
+
 module.exports = router;
