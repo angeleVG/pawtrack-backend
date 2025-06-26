@@ -2,11 +2,40 @@ const router = require("express").Router();
 const Medication = require("../models/Medication.model");
 const Pet = require("../models/Pet.model");
 
+// GET all medications
+router.get("/", (req, res, next) => {
+  Medication.find()
+    .then((medications) => res.json(medications))
+    .catch((err) => {
+      console.error("Error fetching medications:", err);
+      res.status(500).json({ message: "Failed to get medications" });
+    });
+});
+
+
+// GET one medication by ID
+router.get("/:id", (req, res, next) => {
+  const { id } = req.params;
+
+  Medication.findById(id)
+    .then((medication) => {
+      if (!medication) {
+        return res.status(404).json({ message: "Medication not found" });
+      }
+      res.json(medication);
+    })
+    .catch((err) => {
+      console.error("Error fetching medication:", err);
+      res.status(500).json({ message: "Failed to fetch medication" });
+    });
+});
+
+
 // CREATE medication + add reference to Pet
 router.post("/", (req, res, next) => {
-  const { name, dosage, petId } = req.body;
+  const { name, purpose, dosage, startDate, endDate, petId } = req.body;
 
-  Medication.create({ name, dosage, pet: petId })
+  Medication.create({ name, purpose, dosage, startDate, endDate, pet: petId })
     .then((newMedication) => {
       return Pet.findByIdAndUpdate(petId, {
         $push: { medications: newMedication._id },
