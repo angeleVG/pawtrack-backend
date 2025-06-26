@@ -15,16 +15,6 @@ const petSchema = new Schema(
       }
     ],
 
-    medications: [
-      {
-        name: String,
-        purpose: String,
-        dosage: String,
-        startDate: Date,
-        endDate: Date
-      }
-    ],
-
     vaccinations: [
   {
     name: { type: String, required: true }, 

@@ -27,6 +27,9 @@ app.use("/api/pet", petRoutes);
 const taskRoutes = require("./routes/task.routes");
 app.use("/api/task", taskRoutes);
 
+const medicationRoutes = require("./routes/medication.routes");
+app.use("/api/medications", medicationRoutes);
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
