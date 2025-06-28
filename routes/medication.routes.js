@@ -30,7 +30,6 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
-
 // CREATE medication + add reference to Pet
 router.post("/", (req, res, next) => {
   const { name, purpose, dosage, startDate, endDate, petId } = req.body;

@@ -13,16 +13,21 @@ const taskSchema = new Schema(
       required: true,
     },
 
-    walksPerDay: {
+    timesPerDay: {
       type: Number,
       default: 0,
     },
 
-    durations: [Number],
+   duration: {
+  type: Number, // in minutes
+  default: 0
+},
 
-    notes: {
-      type: String,
-    }
+dailyWalks: {
+  durations: [Number],
+  notes: String
+}
+
   },
   {
     timestamps: true,  // this object adds extra properties: `createdAt` and `updatedAt`
