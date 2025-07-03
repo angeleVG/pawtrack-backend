@@ -1,32 +1,28 @@
 const router = require("express").Router();
 const Pet = require("../models/Pet.model");
+const breeds = require("../data/breeds.json");
+
+
+const { isAuthenticated } = require("../middleware/jwt.middleware");
+
+// READ all pets from the logged-in user
+router.get("/", isAuthenticated, (req, res, next) => {
+  Pet.find({ owner: req.payload._id })
+    .then((pets) => res.json(pets))
+    .catch((error) => next(error));
+});
+
+
+
+// GET list of breeds
+router.get("/breeds", (req, res) => {
+  res.json(breeds);
+});
 
 // CREATE pet
 router.post("/", (req, res, next) => {
   Pet.create(req.body)
     .then((pet) => res.status(201).json(pet))
-    .catch((error) => {
-      next(error);
-    });
-});
-
-// READ all pets
-router.get("/", (req, res, next) => {
-  Pet.find()
-    .then((pets) => res.json(pets))
-    .catch((error) => {
-      next(error);
-    });
-});
-
-// READ one pet by ID
-router.get("/:petId", (req, res, next) => {
-  Pet.findById(req.params.petId)
-    .then((pet) =>
-      pet
-        ? res.json(pet)
-        : res.status(404).json({ error: "Pet not found" })
-    )
     .catch((error) => {
       next(error);
     });
@@ -147,6 +143,21 @@ router.delete("/:petId/food", (req, res, next) => {
   )
     .then((updatedPet) => res.json(updatedPet))
     .catch((error) => next(error));
+});
+
+
+
+// READ one pet by ID
+router.get("/:petId", (req, res, next) => {
+  Pet.findById(req.params.petId)
+    .then((pet) =>
+      pet
+        ? res.json(pet)
+        : res.status(404).json({ error: "Pet not found" })
+    )
+    .catch((error) => {
+      next(error);
+    });
 });
 
 module.exports = router;
