@@ -5,6 +5,25 @@ const breeds = require("../data/breeds.json");
 
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
+
+
+// POST /api/pet CREATE PET
+router.post("/", isAuthenticated, async (req, res) => {
+  try {
+    const petData = {
+      ...req.body,
+      owner: req.payload._id, // ✅ voeg de ingelogde gebruiker toe als eigenaar
+    };
+
+    const newPet = await Pet.create(petData);
+    res.status(201).json(newPet);
+  } catch (error) {
+    console.error("Error creating pet:", error.message);
+    res.status(500).json({ message: "Error creating pet", error });
+  }
+});
+
+
 // READ all pets from the logged-in user
 router.get("/", isAuthenticated, (req, res, next) => {
   Pet.find({ owner: req.payload._id })
@@ -13,20 +32,11 @@ router.get("/", isAuthenticated, (req, res, next) => {
 });
 
 
-
 // GET list of breeds
 router.get("/breeds", (req, res) => {
   res.json(breeds);
 });
 
-// CREATE pet
-router.post("/", (req, res, next) => {
-  Pet.create(req.body)
-    .then((pet) => res.status(201).json(pet))
-    .catch((error) => {
-      next(error);
-    });
-});
 
 // UPDATE pet
 router.put("/:petId", (req, res, next) => {
