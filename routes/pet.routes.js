@@ -1,11 +1,30 @@
 const router = require("express").Router();
 const Pet = require("../models/Pet.model");
 const breeds = require("../data/breeds.json");
-
+const express = require("express");
+const multer = require("multer");
+const { storage } = require("../config/cloudinary.config");
+const upload = multer({ storage });
 
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
+// IMAGE UPLOAD
+router.post("/upload", isAuthenticated, upload.single("image"), async (req, res) => {
+  try {
+    const imageUrl = req.file.path;
 
+    const pet = await Pet.findOneAndUpdate(
+      { owner: req.payload._id },
+      { image: imageUrl },
+      { new: true }
+    );
+
+    res.json({ imageUrl });
+  } catch (err) {
+    console.error("Cloudinary upload error:", err);
+    res.status(500).json({ message: "Upload failed" });
+  }
+});
 
 // POST /api/pet CREATE PET
 router.post("/", isAuthenticated, async (req, res) => {
