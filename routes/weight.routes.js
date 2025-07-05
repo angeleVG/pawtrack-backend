@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const Weight = require("../models/Weight.model");
 const Pet = require("../models/Pet.model");
-const isAuthenticated = require("../middleware/isAuthenticated");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
+
+
 
 // GET all weights for current user’s pet(s)
 router.get("/", isAuthenticated, async (req, res) => {
