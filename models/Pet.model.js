@@ -8,13 +8,6 @@ const petSchema = new Schema(
     breed: String,
     birthDate: Date,
 
-    weightHistory: [
-      {
-        date: { type: Date, default: Date.now },
-        weight: { type: Number, required: true }
-      }
-    ],
-
     vaccinations: [
   {
     name: { type: String, required: true }, 
