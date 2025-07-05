@@ -30,6 +30,8 @@ app.use("/api/task", taskRoutes);
 const medicationRoutes = require("./routes/medication.routes");
 app.use("/api/medications", medicationRoutes);
 
+const weightRoutes = require("./routes/weight.routes");
+app.use("/api/weight", weightRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
