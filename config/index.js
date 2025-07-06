@@ -23,10 +23,11 @@ module.exports = (app) => {
 
   // controls a very specific header to pass headers from the frontend
   app.use(
-    cors({
-      origin: [FRONTEND_URL],
-    })
-  );
+  cors({
+    origin: [FRONTEND_URL, "https://pawtrack-app.netlify.app"],
+    credentials: true,
+  })
+);
 
   // In development environment the app logs
   app.use(logger("dev"));
