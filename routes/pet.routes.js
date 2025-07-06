@@ -8,6 +8,12 @@ const upload = multer({ storage });
 
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 
+// GET list of breeds
+router.get("/breeds", (req, res) => {
+  res.json(breeds);
+});
+
+
 // IMAGE UPLOAD
 router.post("/upload", isAuthenticated, upload.single("image"), async (req, res) => {
   try {
@@ -31,7 +37,7 @@ router.post("/", isAuthenticated, async (req, res) => {
   try {
     const petData = {
       ...req.body,
-      owner: req.payload._id, // ✅ voeg de ingelogde gebruiker toe als eigenaar
+      owner: req.payload._id, 
     };
 
     const newPet = await Pet.create(petData);
@@ -50,11 +56,6 @@ router.get("/", isAuthenticated, (req, res, next) => {
     .catch((error) => next(error));
 });
 
-
-// GET list of breeds
-router.get("/breeds", (req, res) => {
-  res.json(breeds);
-});
 
 
 // UPDATE pet
