@@ -35,9 +35,15 @@ router.post("/upload", isAuthenticated, upload.single("image"), async (req, res)
 // POST /api/pet CREATE PET
 router.post("/", isAuthenticated, async (req, res) => {
   try {
+    // Check if user already has a pet
+    const existingPet = await Pet.findOne({ owner: req.payload._id });
+    if (existingPet) {
+      return res.status(400).json({ message: "You already have a pet" });
+    }
+
     const petData = {
       ...req.body,
-      owner: req.payload._id, 
+      owner: req.payload._id,
     };
 
     const newPet = await Pet.create(petData);
