@@ -145,13 +145,13 @@ router.delete("/:petId/vaccinations/:index", (req, res, next) => {
 });
 
 // UPDATE food info
-router.put("/:petId/food", (req, res, next) => {
+router.put("/:petId/food", isAuthenticated, (req, res, next) => {
   const { brand, product, portionSize, frequency, notes } = req.body;
 
   Pet.findByIdAndUpdate(
     req.params.petId,
     {
-      food: { brand, product, portionSize, frequency, notes }
+      food: { brand, product, portionSize, frequency, notes },
     },
     { new: true }
   )
@@ -160,8 +160,9 @@ router.put("/:petId/food", (req, res, next) => {
 });
 
 
+
 // GET food info for a pet
-router.get("/:petId/food", (req, res, next) => {
+router.get("/:petId/food", isAuthenticated, (req, res, next) => {
   Pet.findById(req.params.petId)
     .then((pet) => {
       if (!pet) return res.status(404).json({ error: "Pet not found" });
@@ -171,7 +172,7 @@ router.get("/:petId/food", (req, res, next) => {
 });
 
 // DELETE food info
-router.delete("/:petId/food", (req, res, next) => {
+router.delete("/:petId/food", isAuthenticated, (req, res, next) => {
   Pet.findByIdAndUpdate(
     req.params.petId,
     { $unset: { food: "" } },
