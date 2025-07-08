@@ -16,15 +16,15 @@ const foodSchema = new Schema(
       trim: true,
     },
     portionSize: {
-      type: Number, // g is impliciet, dus liever als getal
+      type: Number, 
       min: 0,
     },
     frequency: {
-      type: Number, // aantal maaltijden per dag
+      type: Number, 
       min: 0,
     },
     waterAmount: {
-      type: Number, // in ml
+      type: Number, 
       min: 0,
     },
     snacksPerDay: {
