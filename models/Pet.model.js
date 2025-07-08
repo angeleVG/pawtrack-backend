@@ -20,6 +20,8 @@ nextDueDate: Date  }
       product: String,
       portionSize: String,
       frequency: String,
+        waterAmount: String,     
+  snacksPerDay: String,
       notes: String
     },
 
