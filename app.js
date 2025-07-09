@@ -36,6 +36,8 @@ app.use("/api/weight", weightRoutes);
 const foodRoutes = require("./routes/food.routes");
 app.use("/api/food", foodRoutes);
 
+const vaccinationRoutes = require('./routes/vaccination');
+app.use('/api/vaccination', vaccinationRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
