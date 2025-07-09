@@ -8,12 +8,7 @@ const petSchema = new Schema(
     breed: String,
     birthDate: Date,
 
-    vaccinations: [
-  {
-    name: { type: String, required: true }, 
-    date: { type: Date, default: Date.now },  
-nextDueDate: Date  }                       
-],
+   
 
     food: {
       brand: String,
