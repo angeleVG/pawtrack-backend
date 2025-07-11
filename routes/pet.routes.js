@@ -14,6 +14,7 @@ router.get("/breeds", (req, res) => {
 });
 
 
+
 // IMAGE UPLOAD
 router.post("/upload", isAuthenticated, upload.single("image"), async (req, res) => {
   try {
@@ -31,6 +32,27 @@ router.post("/upload", isAuthenticated, upload.single("image"), async (req, res)
     res.status(500).json({ message: "Upload failed" });
   }
 });
+
+// share pet data by petId 
+router.get("/public/:petId", async (req, res) => {
+  try {
+    const pet = await Pet.findById(req.params.petId)
+      .populate("weights")
+      .populate("food")
+      .populate("medications")
+      .populate("vaccinations")
+      .populate("activities")
+      .populate("contacts");
+
+    if (!pet) {
+      return res.status(404).json({ message: "Pet not found" });
+    }
+    res.json(pet);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching pet" });
+  }
+});
+
 
 // POST /api/pet CREATE PET
 router.post("/", isAuthenticated, async (req, res) => {
