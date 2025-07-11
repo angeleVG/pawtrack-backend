@@ -1,3 +1,10 @@
+const Contact = require("../models/Contact.model");
+const Medication = require("../models/Medication.model");
+const Vaccination = require("../models/Vaccination.model");
+const Weight = require("../models/Weight.model");
+const Food = require("../models/Food.model");
+
+
 const router = require("express").Router();
 const Pet = require("../models/Pet.model");
 const breeds = require("../data/breeds.json");
@@ -33,22 +40,40 @@ router.post("/upload", isAuthenticated, upload.single("image"), async (req, res)
   }
 });
 
-// share pet data by petId 
 router.get("/public/:petId", async (req, res) => {
   try {
-    const pet = await Pet.findById(req.params.petId)
-      .populate("weights")
-      .populate("food")
-      .populate("medications")
-      .populate("vaccinations")
-      .populate("activities")
-      .populate("contacts");
+    const pet = await Pet.findById(req.params.petId);
 
     if (!pet) {
       return res.status(404).json({ message: "Pet not found" });
     }
-    res.json(pet);
+
+    // Alle relevant data for pet:
+    const [
+      contacts,
+      medications,
+      vaccinations,
+      weights,
+      food
+    ] = await Promise.all([
+      Contact.find({ pet: pet._id }),
+      Medication.find({ pet: pet._id }),
+      Vaccination.find({ pet: pet._id }),
+      Weight.find({ pet: pet._id }),
+      Food.findOne({ pet: pet._id }),
+    ]);
+
+    // combine in 1 JSON-object:
+    res.json({
+      ...pet.toObject(),
+      contacts,
+      medications,
+      vaccinations,
+      weights,
+      food,
+    });
   } catch (err) {
+    console.error("Error fetching pet:", err);
     res.status(500).json({ message: "Error fetching pet" });
   }
 });
