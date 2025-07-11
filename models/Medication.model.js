@@ -8,7 +8,7 @@ const medicationSchema = new Schema({
   dosage: String,
   startDate: Date,
   endDate: Date,
-  pet: { type: Schema.Types.ObjectId, ref: "Pet" }, // connecting the medication to the pet
+pet: { type: Schema.Types.ObjectId, ref: "Pet", required: true }, // connecting the medication to the pet
 });
 
 module.exports = model("Medication", medicationSchema);
