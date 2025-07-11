@@ -3,9 +3,13 @@ const Vaccination = require("../models/Vaccination.model");
 
 // Create
 router.post("/", (req, res) => {
+  console.log("POST /api/vaccination body:", req.body); 
   Vaccination.create(req.body)
     .then((vaccination) => res.json(vaccination))
-    .catch((err) => res.status(500).json({ message: "Failed to create vaccination" }));
+    .catch((err) => {
+      console.error("Failed to create vaccination", err);
+      res.status(500).json({ message: "Failed to create vaccination", error: err.message });
+    });
 });
 
 // Read all by pet
